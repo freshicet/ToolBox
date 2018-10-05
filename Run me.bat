@@ -1,1 +1,0 @@
-PowerShell.exe -windowstyle hidden Main.ps1
