@@ -1,0 +1,1 @@
+PowerShell.exe -windowstyle hidden {Main - Copy.ps1}
