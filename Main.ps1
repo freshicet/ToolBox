@@ -90,7 +90,7 @@ $Button11.location               = New-Object System.Drawing.Point(161,182)
 $Button11.Font                   = 'Microsoft Sans Serif,10'
 
 $Button12                        = New-Object system.Windows.Forms.Button
-$Button12.text                   = "12"
+$Button12.text                   = "File"
 $Button12.width                  = 60
 $Button12.height                 = 30
 $Button12.location               = New-Object System.Drawing.Point(161,235)
@@ -185,6 +185,9 @@ $Button9.Add_MouseHover({ indexing_Tip })
 $Button11.Add_Click({ Config })
 $Button11.Add_MouseHover({ Config_Tip })
 
+$Button12.Add_Click({ File })
+$Button12.Add_MouseHover({ File_Tip })
+
 $Button13.Add_Click({ Last_Boot })
 $Button13.Add_MouseHover({ Last_Boot_Tip })
 
@@ -220,6 +223,13 @@ function ipconfig {
     Set-Clipboard -Value "ipconfig"}
 function ipconfig_Tip {
    $text = "test"
+      $tooltip1.SetToolTip($ipconfig, $text)
+   }
+
+function File {
+    Explorer }
+function File_Tip {
+   $text = "Open File exploer at this PC"
       $tooltip1.SetToolTip($ipconfig, $text)
    }
 
