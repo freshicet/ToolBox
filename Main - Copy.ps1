@@ -69,7 +69,7 @@ $Button8.location                = New-Object System.Drawing.Point(234,127)
 $Button8.Font                    = 'Microsoft Sans Serif,10'
 
 $Button9                         = New-Object system.Windows.Forms.Button
-$Button9.text                    = "9"
+$Button9.text                    = "Index"
 $Button9.width                   = 60
 $Button9.height                  = 30
 $Button9.location                = New-Object System.Drawing.Point(234,182)
@@ -83,7 +83,7 @@ $Button10.location               = New-Object System.Drawing.Point(234,235)
 $Button10.Font                   = 'Microsoft Sans Serif,10'
 
 $Button11                        = New-Object system.Windows.Forms.Button
-$Button11.text                   = "11"
+$Button11.text                   = "Config"
 $Button11.width                  = 60
 $Button11.height                 = 30
 $Button11.location               = New-Object System.Drawing.Point(161,182)
@@ -104,7 +104,7 @@ $Button13.location               = New-Object System.Drawing.Point(10,182)
 $Button13.Font                   = 'Microsoft Sans Serif,10'
 
 $Button14                        = New-Object system.Windows.Forms.Button
-$Button14.text                   = "14"
+$Button14.text                   = "User"
 $Button14.width                  = 60
 $Button14.height                 = 30
 $Button14.location               = New-Object System.Drawing.Point(84,182)
@@ -139,14 +139,14 @@ $Button18.location               = New-Object System.Drawing.Point(84,76)
 $Button18.Font                   = 'Microsoft Sans Serif,10'
 
 $Button19                        = New-Object system.Windows.Forms.Button
-$Button19.text                   = "19"
+$Button19.text                   = "Domain"
 $Button19.width                  = 60
 $Button19.height                 = 30
 $Button19.location               = New-Object System.Drawing.Point(10,235)
 $Button19.Font                   = 'Microsoft Sans Serif,10'
 
 $Button20                        = New-Object system.Windows.Forms.Button
-$Button20.text                   = "20"
+$Button20.text                   = "Device"
 $Button20.width                  = 60
 $Button20.height                 = 30
 $Button20.location               = New-Object System.Drawing.Point(84,235)
@@ -179,8 +179,17 @@ $Button7.Add_MouseHover({ Ping_Tip })
 $Button8.Add_Click({ Task })
 $Button8.Add_MouseHover({ Task_Tip })
 
+$Button9.Add_Click({ indexing })
+$Button9.Add_MouseHover({ indexing_Tip })
+
+$Button11.Add_Click({ Config })
+$Button11.Add_MouseHover({ Config_Tip })
+
 $Button13.Add_Click({ Last_Boot })
 $Button13.Add_MouseHover({ Last_Boot_Tip })
+
+$Button14.Add_Click({ User })
+$Button14.Add_MouseHover({ User_Tip })
 
 $Button15.Add_Click({ Super })
 $Button15.Add_MouseHover({ Super_Tip })
@@ -194,6 +203,11 @@ $Button17.Add_MouseHover({ grams_Tip })
 $Button18.Add_Click({ sfc })
 $Button18.Add_MouseHover({ sfc_Tip })
 
+$Button19.Add_Click({ Domain })
+$Button19.Add_MouseHover({ Domain_Tip })
+
+$Button20.Add_Click({ Device })
+$Button20.Add_MouseHover({ Device_Tip })
 
 
 #endregion events }
@@ -247,6 +261,28 @@ function grams_Tip {
    $tooltip1.SetToolTip($Button17, $text)
    }
 
+function User {
+    netplwiz }
+function User_Tip {
+   $text = "Opens User Accounts"
+   $tooltip1.SetToolTip($Button14, $text)
+   }
+
+function Config {
+    msconfig }
+function Config_Tip {
+   $text = "Opens Ststem Configuration for startup & Tools"
+   $tooltip1.SetToolTip($Button11, $text)
+   }
+  
+
+function Device {
+    devmgmt.msc }
+function Device_Tip {
+   $text = "Start Device Manager"
+   $tooltip1.SetToolTip($Button20, $text)
+   }
+
 function Ping {
 start powershell {./ping.ps1}
  }
@@ -255,8 +291,17 @@ function Ping_Tip {
    $tooltip1.SetToolTip($Button7, $text)
    }
 
+
+function Domain {
+start powershell {./Domain.ps1}
+ }
+function Domain_Tip {
+   $text = "Get computer name & change the computer name and add to the Domain"
+   $tooltip1.SetToolTip($Button19, $text)
+   }
+
 function Last_Boot {
-	Start-Process PowerShell {Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime | out-host; read-host}
+  Start-Process PowerShell {Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime | out-host; read-host}
  }
 function Last_Boot_Tip {
    $text = "Show last reboot"
@@ -265,7 +310,7 @@ function Last_Boot_Tip {
 
 
 function control {
-start powershell {control panel}
+start powershell -Verb runas {control panel}
  }
 function control_Tip {
    $text = "Open a control panel"
@@ -286,8 +331,17 @@ function sfc {
    $params=@("/C";"sfc /scannow")
    Start-Process -Verb runas $prog $params }
 function sfc_Tip {
-   $text = "Open a sfc scan in cmd (admin mode)"
+   $text = "Open a sfc scan in cmd"
    $tooltip1.SetToolTip($Button18, $text)
+   }
+
+function indexing {
+   $prog="cmd.exe"
+   $params=@("/C";"sc stop “wsearch” && sc config “wsearch” start=disabled")
+   Start-Process -Verb runas $prog $params }
+function indexing_Tip {
+   $text = "Disable indexing on Windows"
+   $tooltip1.SetToolTip($Button9, $text)
    }
 
 function Super {
